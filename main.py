@@ -8,17 +8,24 @@ load_dotenv()
 API_URL_GET = "https://api.anymarket.com.br/v2/products/{id}"
 API_URL_POST = "https://api.anymarket.com.br/v2/products"
 
-TOKEN = os.getenv("ANY_1")  # ou ANY_2
+TOKEN_ANY1 = os.getenv("ANY_1")  # ou ANY_2
+TOKEN_ANY2 = os.getenv("ANY_2")  # ou ANY_1
 
-HEADERS = {
+
+HEADERS_ORIGEM = {
     "Content-Type": "application/json",
-    "gumgaToken": TOKEN
+    "gumgaToken": TOKEN_ANY1
+}
+
+HEADERS_DESTINO = {
+    "Content-Type": "application/json",
+    "gumgaToken": TOKEN_ANY2
 }
 
 def clonar_produto(id_prod_hub, novo_sku, novo_ean):
     # 1. Buscar produto pelo ID
     url_get = API_URL_GET.format(id=id_prod_hub)
-    response = requests.get(url_get, headers=HEADERS)
+    response = requests.get(url_get, headers=HEADERS_ORIGEM)
 
     if response.status_code != 200:
         print("❌ Erro ao buscar produto:", response.status_code, response.text)
@@ -51,7 +58,7 @@ def clonar_produto(id_prod_hub, novo_sku, novo_ean):
     print(json.dumps(produto, indent=2, ensure_ascii=False))
 
     # 6. Enviar POST para criar novo produto
-    post = requests.post(API_URL_POST, headers=HEADERS, data=json.dumps(produto))
+    post = requests.post(API_URL_POST, headers=HEADERS_DESTINO, data=json.dumps(produto))
 
     if post.status_code == 201:
         print(f"✅ Produto {novo_sku} criado com sucesso!")
