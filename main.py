@@ -8,9 +8,6 @@ load_dotenv()
 API_URL_GET = "https://api.anymarket.com.br/v2/products/{id}"
 API_URL_POST = "https://api.anymarket.com.br/v2/products"
 
-#ANY_1 = "MjU5MDI2OTI0Lg==.asoTJuVGMrSd0RgmE9g0t6/dr59T9NtemzSF5huGWX1FsZJJgrrsadK1JI41YmTeTswenQ7VaHd93r0Q52q7AQ=="
-#ANY_2 = "MjU5MDQ3MzU2Lg==.ANGIbLEHFMmZlfjZZY80eE+J9sf38bUsHEEVDEFV+GTo0ElgRgiK7hlMXu0n6SjiGY+J7RjJvXu9PagjZNNrnQ=="
-
 TOKEN = os.getenv("ANY_1")  # ou ANY_2
 
 HEADERS = {
