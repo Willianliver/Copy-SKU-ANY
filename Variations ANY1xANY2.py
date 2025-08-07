@@ -18,6 +18,8 @@ HEADERS_DESTINO = {
     "gumgaToken": ANY_2
 }
 
+# Categoria padrão da conta destino
+CATEGORIA_PADRAO_ID = 1465880
 
 # Função para limpar campos que causam erro
 def limpar_campos(produto):
@@ -39,6 +41,7 @@ def clonar_produto_com_variacoes(id_prod_hub, novo_sku_pai, novo_ean_pai):
     produto = response.json()
     produto = limpar_campos(produto)
 
+   
 
     # 2. Substituir SKU pai
     if 'sku' in produto and isinstance(produto['sku'], dict):
@@ -61,6 +64,11 @@ def clonar_produto_com_variacoes(id_prod_hub, novo_sku_pai, novo_ean_pai):
             # Remover campos problemáticos
             for campo in ['id', 'idVariation', 'stockLocalId']:
                 sku_item.pop(campo, None)
+                produto.pop('brand', None)
+
+
+             # 2.2 Substituir categoria SEMPRE pela padrão (antes do POST)
+            produto['category'] = {"id": CATEGORIA_PADRAO_ID}
 
             # Corrigir estrutura de variations
             nova_variations = {}
