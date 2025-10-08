@@ -15,7 +15,7 @@ HEADERS_ORIGEM = {
 
 HEADERS_DESTINO = {
     "Content-Type": "application/json",
-    "gumgaToken": ANY_2
+    "gumgaToken": ANY_1
 }
 
 
