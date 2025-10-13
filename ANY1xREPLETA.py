@@ -26,6 +26,7 @@ HEADERS_DESTINO = {
 CATEGORIA_PADRAO_ID = 3598455
 ESTOQUE_ANY_3 = 45479
 
+
 def clonar_produto(id_prod_hub, novo_sku, novo_ean, estoque):
     # 1. Buscar produto pelo ID
     url_get = API_URL_GET.format(id=id_prod_hub)
@@ -45,7 +46,8 @@ def clonar_produto(id_prod_hub, novo_sku, novo_ean, estoque):
           
 
     # 2.2 Substituir categoria SEMPRE pela padrão (antes do POST)
-    produto['category'] = {"id": CATEGORIA_PADRAO_ID}    
+    produto['category'] = {"id": CATEGORIA_PADRAO_ID} 
+ 
     #produto['stockLocalId'] = {"id" : ESTOQUE_ANY_2}
 
     # 3. Atualizar o sku principal
@@ -53,6 +55,8 @@ def clonar_produto(id_prod_hub, novo_sku, novo_ean, estoque):
         produto['sku']['partnerId'] = novo_sku
         produto['sku']['ean'] = novo_ean
         produto['sku']['stockLocalId'] = estoque
+        produto['sku']['priceFactor'] = 1
+        
         
     else:
         produto['sku'] = {
@@ -66,6 +70,8 @@ def clonar_produto(id_prod_hub, novo_sku, novo_ean, estoque):
             sku_item['partnerId'] = novo_sku
             sku_item['ean'] = novo_ean
             sku_item['stockLocalId'] = estoque
+            
+        
 
     # 5. Mostrar o JSON final para conferência
     print("\n✅ JSON FINAL ENVIADO:")
@@ -86,6 +92,6 @@ if __name__ == "__main__":
     id_origem = input("Informe o ID do produto origem (id_prod_hub): ").strip()
     novo_sku = input("Informe o novo SKU: ").strip()
     novo_ean = input("Informe o novo EAN: ").strip()
-    estoque = input("informe o id do estoque").strip()
+    estoque = input("informe o id do estoque: ").strip()
 
     clonar_produto(id_origem, novo_sku, novo_ean, estoque)
