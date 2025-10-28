@@ -8,7 +8,7 @@ Os scripts utilizam a **API AnyMarket** para buscar dados de produtos existentes
 ## 📁 Estrutura do Repositório
 
 ```
-COPY SIMPLE P KIT/        → Pasta auxiliar com arquivos adicionais
+COPY SIMPLE P KIT/        → Duplica produtos simples e transforma em "kit"
 .gitignore                → Arquivo padrão do Git
 ANY1xANY2.py              → Script de clonagem simples (API entre contas 1 e 2)
 ANY1xREPLETA.py           → Script de clonagem simples (conta 1 → Repleta)
