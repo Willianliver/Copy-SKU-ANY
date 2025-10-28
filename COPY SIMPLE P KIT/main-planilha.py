@@ -24,6 +24,8 @@ BACKOFF_BASE_SEC = 1.5
 
 
 # ===================== FUNÇÕES AUXILIARES =====================
+
+#essa função remove os dados que não podem ser enviados no POST
 def sanitize_product_for_post(prod):
     for campo in ['id', 'creationDate', 'modificationDate', 'dataSource', 'stockLocalId',
                   'partnerId', 'allowAutomaticSkuMarketplaceCreation', 'calculatedPrice',
@@ -34,7 +36,8 @@ def sanitize_product_for_post(prod):
     prod.pop('kitComponents', None)
     return prod
 
-
+# Executa requisições HTTP com repetição automática em caso de erro (429, 500, 502, etc)
+# Caso a execução seja negada e faz uma nova tentativa
 def get_json_with_retries(url, params=None, headers=None, method="GET", data=None, timeout=30):
     attempt = 0
     while attempt < MAX_RETRIES:
@@ -68,7 +71,7 @@ def get_json_with_retries(url, params=None, headers=None, method="GET", data=Non
 
     return 599, "Erro após múltiplas tentativas"
 
-
+# Pega o idSku interno a partir do partnerId (SKU externo).
 def resolve_sku_id_from_partner(partner_id):
     """Resolve o idSku (necessário para kitComponents)"""
     code, data = get_json_with_retries(API_URL_GET_BY_SKU, params={"sku": str(partner_id)}, headers=HEADERS)
@@ -87,7 +90,7 @@ def resolve_sku_id_from_partner(partner_id):
 
     return None
 
-
+# Busca o preço de um SKU no estoque definido
 def fetch_price_from_stocks(sku_partner):
     """Busca o preço do SKU no estoque definido"""
     code, data = get_json_with_retries(API_URL_STOCKS, params={"sku": sku_partner, "stockLocalId": STOCK_LOCAL_ID}, headers=HEADERS)
@@ -145,7 +148,7 @@ def clonar_produto_como_kit(id_prod_hub, novo_sku, novo_ean, sku_composicao):
         
     }]
 
-    # Define os componentes do KIT
+    # Define os componentes do KIT   #IMPORTANTEE
     produto['kitComponents'] = [{
         "idInClient": str(sku_composicao),
         "idSku": id_sku_comp,
